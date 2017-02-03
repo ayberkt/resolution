@@ -1,7 +1,7 @@
 module Nameless = struct
   open List
   open AbsResolution
-  
+
   let vars = ref []
 
   type result = NotSeen | Index of int
@@ -23,6 +23,7 @@ module Nameless = struct
       end
     | ConjExp (phi, theta) -> Conj (rm_names' xs phi, rm_names' xs theta)
     | DisjExp (phi, theta) -> Disj (rm_names' xs phi, rm_names' xs theta)
+    | NegExp phi -> Neg (rm_names' xs phi)
 
   let rm_names phi = let r = rm_names' [] phi in vars := []; r
 
