@@ -1,11 +1,12 @@
 entrypoints FormExp;
 
-PropName.    FormExp4  ::= Ident;
-NegExp.      FormExp3  ::= "~" FormExp4;
-ConjExp.     FormExp2  ::= FormExp2 "/\\" FormExp3;
-DisjExp.     FormExp   ::= FormExp  "\\/" FormExp2;
+PropName.    FormExp5  ::= Ident;
+NegExp.      FormExp4  ::= "~" FormExp5;
+ConjExp.     FormExp3  ::= FormExp3 "/\\" FormExp4;
+DisjExp.     FormExp2  ::= FormExp2 "\\/" FormExp3;
+ImplExp.     FormExp   ::= FormExp  "=>" FormExp2;
 
-coercions FormExp 4;
+coercions FormExp 5;
 
 internal Conj. Form ::= Form "/\\" Form ;
 internal Disj. Form ::= Form "\\/" Form ;

@@ -24,6 +24,7 @@ module Nameless = struct
     | ConjExp (phi, theta) -> Conj (rm_names' xs phi, rm_names' xs theta)
     | DisjExp (phi, theta) -> Disj (rm_names' xs phi, rm_names' xs theta)
     | NegExp phi -> Neg (rm_names' xs phi)
+    | ImplExp (p, q) -> Disj (Neg (rm_names' xs p), (rm_names' xs q))
 
   let rm_names phi = let r = rm_names' [] phi in vars := []; r
 
