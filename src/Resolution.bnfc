@@ -10,5 +10,5 @@ coercions FormExp 5;
 
 internal Conj. Form ::= "(" Form "/\\" Form ")";
 internal Disj. Form ::= "(" Form "\\/" Form ")";
-internal Prop. Form ::= Integer;
+internal Prop. Form ::= String;
 internal Neg.  Form ::= "(" "~" Form ")";
