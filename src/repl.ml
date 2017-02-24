@@ -5,7 +5,7 @@ open BNFC_Util
 open Lexing
 open Nameless
 open Sys
-open Transform
+open Naive.Naive
 
 let printf = Printf.printf;;
 
@@ -38,10 +38,10 @@ let repl () =
     if String.equal input "quit"
     then quit_repl ()
     else
-      let result = Nameless.rm_names (parse_line input) in
-      let print x = printf "\n%s\n" (printTree PrintResolution.prtForm x) in
+      let result = transform (Nameless.rm_names (parse_line input)) in
+      let print (x : form) =
+        printf "\n%s\n" (printTree prtForm x) in
       print result;
-      List.iter print (Transform.subforms result)
   done
 
 let main =
