@@ -13,7 +13,7 @@ module Nameless = struct
       | (_::vs) -> seen' (i+1) vs
     in seen' 0 !vars
 
-  let rec rm_names' xs = function
+  (* let rec rm_names' xs = function
     | PropName (Ident x) -> begin
         match seen x with
         | NotSeen ->
@@ -25,7 +25,14 @@ module Nameless = struct
     | DisjExp (phi, theta) -> Disj (rm_names' xs phi, rm_names' xs theta)
     | NegExp phi -> Neg (rm_names' xs phi)
     | ImplExp (p, q) -> Disj (Neg (rm_names' xs p), (rm_names' xs q))
+ *)
+  (* let rm_names phi = let r = rm_names' [] phi in vars := []; r *)
 
-  let rm_names phi = let r = rm_names' [] phi in vars := []; r
+  let rec rm_names = function
+    | PropName (Ident x) -> Prop x
+    | ConjExp (p, q) -> Conj (rm_names p, rm_names q)
+    | DisjExp (p, q) -> Disj (rm_names p, rm_names q)
+    | NegExp p -> Neg (rm_names p)
+    | ImplExp (p, q) -> Disj (Neg (rm_names p), rm_names q)
 
 end
