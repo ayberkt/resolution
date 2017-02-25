@@ -26,9 +26,27 @@ module Resolution = struct
     | Disj (p, q) -> union (get_lit_set p) (get_lit_set q)
     | _ -> failwith "this must not have happened"
 
-  let rec get_clauses : form -> clause array = function
+
+  let show_clause (c : clause) =
+    let proj = function
+      | Positive p -> p
+      | Negative p -> "~" ^ p
+    in
+    let ss = Clause.elements c in
+    "{" ^ (String.concat ", " (List.map proj ss)) ^ "}"
+
+  let print_clause (c : clause) =
+    Printf.printf "%s\n" (show_clause c)
+
+  let seen : (clause list) ref = ref [] in
+  
+  let rec get_clauses = function
     | Conj (p, q) -> append (get_clauses p) (get_clauses q)
-    | p -> Array.make 1 (get_lit_set p)
+    | p ->
+      let p' = get_lit_set p in
+      if List.mem p' !seen
+      then Array.make 0 p'
+      else (seen := p'::!seen; Array.make 1 p')
 
   let complement = function Positive p -> Negative p | Negative p -> Positive p
 
@@ -47,13 +65,6 @@ module Resolution = struct
 
   exception Found
 
-  let show_clause (c : clause) =
-    let proj = function
-      | Positive p -> p
-      | Negative p -> "~" ^ p
-    in
-    let ss = Clause.elements c in
-    "{" ^ (String.concat ", " (List.map proj ss)) ^ "}"
 
   let resolve_all (cs : clause array) =
     let _ =
