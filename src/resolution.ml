@@ -6,7 +6,7 @@ module Resolution = struct
 
   let lit_compare l1 l2 =
     let get_id = function Positive p -> p | Negative p -> p in
-    String.compare (get_id l1) (get_id l1)
+    String.compare (get_id l1) (get_id l2)
 
   module Clause =
     Set.Make (struct type t = literal let compare = lit_compare end)
@@ -20,7 +20,9 @@ module Resolution = struct
 
   type result = Refuted | Valid
 
-  let rec get_lit_set : form -> clause = function
+  let rec get_lit_set f =
+    let _ = Printf.printf "get_lit_set\n" in
+    match f with
     | Prop p -> singleton (Positive p)
     | Neg Prop p -> singleton (Negative p)
     | Disj (p, q) -> union (get_lit_set p) (get_lit_set q)
@@ -35,18 +37,19 @@ module Resolution = struct
     let ss = Clause.elements c in
     "{" ^ (String.concat ", " (List.map proj ss)) ^ "}"
 
-  let print_clause (c : clause) =
-    Printf.printf "%s\n" (show_clause c)
+  let print_clause (c : clause) = Printf.printf "%s\n" (show_clause c)
 
-  let seen : (clause list) ref = ref [] in
-  
-  let rec get_clauses = function
-    | Conj (p, q) -> append (get_clauses p) (get_clauses q)
-    | p ->
-      let p' = get_lit_set p in
-      if List.mem p' !seen
-      then Array.make 0 p'
-      else (seen := p'::!seen; Array.make 1 p')
+  let get_clauses cs =
+    let seen : (clause list) ref = ref [] in
+    let rec get_clauses' = function
+      | Conj (p, q) -> append (get_clauses' p) (get_clauses' q)
+      | p ->
+        let p' = get_lit_set p in
+        if List.mem p' !seen
+        then Array.make 0 p'
+        else (seen := p'::!seen; Array.make 1 p')
+    in
+      get_clauses' cs
 
   let complement = function Positive p -> Negative p | Negative p -> Positive p
 
