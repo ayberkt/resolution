@@ -1,4 +1,4 @@
-module Nameless : sig
+module Desugar : sig
   open AbsResolution
-  val rm_names : formExp -> form
+  val desugar : formExp -> form
 end

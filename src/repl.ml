@@ -3,7 +3,7 @@ open PrintResolution
 open Printf
 open BNFC_Util
 open Lexing
-open Nameless
+open Desugar
 open Sys
 open Naive.Naive
 
@@ -38,7 +38,7 @@ let repl () =
     if String.equal input "quit"
     then quit_repl ()
     else
-      let result = transform (Nameless.rm_names (parse_line input)) in
+      let result = transform (Desugar.desugar (parse_line input)) in
       let print (x : form) =
         printf "\n%s\n" (printTree prtForm x) in
       print result;

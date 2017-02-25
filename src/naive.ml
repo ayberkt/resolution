@@ -27,7 +27,7 @@ module Naive : TRANSFORM = struct
     | Prop _ as p -> p
 
   let rec omit_double_neg = function
-    | Neg (Neg p) -> omit_double_neg p
+    | Neg Neg p -> omit_double_neg p
     | Conj (p, q) -> Conj (omit_double_neg p, omit_double_neg q)
     | Disj (p, q) -> Disj (omit_double_neg p, omit_double_neg q)
     | Neg p -> Neg (omit_double_neg p)

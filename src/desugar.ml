@@ -1,4 +1,4 @@
-module Nameless = struct
+module Desugar = struct
   open List
   open AbsResolution
 
@@ -13,7 +13,7 @@ module Nameless = struct
       | (_::vs) -> seen' (i+1) vs
     in seen' 0 !vars
 
-  (* let rec rm_names' xs = function
+  (* let rec desugar' xs = function
     | PropName (Ident x) -> begin
         match seen x with
         | NotSeen ->
@@ -28,11 +28,11 @@ module Nameless = struct
  *)
   (* let rm_names phi = let r = rm_names' [] phi in vars := []; r *)
 
-  let rec rm_names = function
+  let rec desugar = function
     | PropName (Ident x) -> Prop x
-    | ConjExp (p, q) -> Conj (rm_names p, rm_names q)
-    | DisjExp (p, q) -> Disj (rm_names p, rm_names q)
-    | NegExp p -> Neg (rm_names p)
-    | ImplExp (p, q) -> Disj (Neg (rm_names p), rm_names q)
+    | ConjExp (p, q) -> Conj (desugar p, desugar q)
+    | DisjExp (p, q) -> Disj (desugar p, desugar q)
+    | NegExp p -> Neg (desugar p)
+    | ImplExp (p, q) -> Disj (Neg (desugar p), desugar q)
 
 end
