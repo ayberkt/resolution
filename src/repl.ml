@@ -6,6 +6,7 @@ open Lexing
 open Desugar
 open Sys
 open Naive.Naive
+open Resolution
 
 let printf = Printf.printf;;
 
