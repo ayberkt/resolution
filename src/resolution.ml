@@ -5,8 +5,11 @@ module Resolution = struct
   type literal = Positive of string | Negative of string
 
   let lit_compare l1 l2 =
-    let get_id = function Positive p -> p | Negative p -> p in
-    String.compare (get_id l1) (get_id l2)
+    match (l1, l2) with
+    | (Positive p, Positive q) -> String.compare p q
+    | (Negative p, Negative q) -> String.compare p q
+    | (Positive _, Negative _) -> 1
+    | (Negative _, Positive _) -> -1
 
   module Clause =
     Set.Make (struct type t = literal let compare = lit_compare end)
