@@ -1,0 +1,10 @@
+OASISFormat: 0.4
+Name:        resolution
+Version:     0.0.1
+Synopsis:    A tiny implementation of logical resolution.
+Authors:     Ayberk Tosun
+License:     BSD-3-clause
+Executable "reso"
+  Path:       src
+  BuildTools: ocamlbuild
+  MainIs:     repl.ml
