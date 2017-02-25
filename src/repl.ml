@@ -39,15 +39,15 @@ let repl () =
     if String.equal input "quit"
     then quit_repl ()
     else
-      (* let clauses : clause array =
-        get_clauses (transform (Desugar.desugar (parse_line input))) in *)
-      (* match resolve_all clauses with
+      let clauses : clause array =
+        get_clauses (transform (Desugar.desugar (parse_line input))) in
+      match resolve_all clauses with
        | Refuted -> Printf.printf "Refuted.\n"
-       | Valid   -> Printf.printf "Valid.\n" *)
-        (* let print (x : form) =
-          printf "\n%s\n" (printTree prtForm x) in *)
-        let result = get_clauses (Desugar.desugar (parse_line input)) in
-        Array.iter print_clause result
+       | Valid   -> Printf.printf "Valid.\n"
+         (* let print (x : form) = *)
+          (* printf "\n%s\n" (printTree prtForm x) in *)
+        (* let result = get_clauses (Desugar.desugar (parse_line input)) in *)
+        (* Array.iter print_clause result *)
 
   done
 
