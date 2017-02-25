@@ -3,7 +3,7 @@ open PrintResolution
 open Printf
 open BNFC_Util
 open Lexing
-open Desugar
+open Desugar.Desugar
 open Sys
 open Naive.Naive
 open Resolution.Resolution
@@ -40,7 +40,8 @@ let repl () =
     then quit_repl ()
     else
       let clauses : clause array =
-        get_clauses (transform (Desugar.desugar (parse_line input))) in
+        parse_line input |> desugar |> transform |> get_clauses in
+        (* get_clauses (transform (Desugar.desugar (parse_line input))) in *)
       match resolve_all clauses with
        | Refuted -> Printf.printf "Refuted.\n"
        | Valid   -> Printf.printf "Valid.\n"

@@ -24,7 +24,6 @@ module Resolution = struct
   type result = Refuted | Valid
 
   let rec get_lit_set f =
-    let _ = Printf.printf "get_lit_set\n" in
     match f with
     | Prop p -> singleton (Positive p)
     | Neg Prop p -> singleton (Negative p)
@@ -76,14 +75,13 @@ module Resolution = struct
     let _ =
       Printf.printf "Clauses: ";
       Array.iter (fun x -> Printf.printf "%s\n" (show_clause x)) cs in
-    let cs' = Array.map (fun x -> Some x) cs in
+    let cs' =
+      Array.map (fun x -> if is_trivial x then None else Some x) cs in
     let clauses : (clause option) array = cs' in
     let find_reso_bin i c1' j (c2' : clause option) =
       match (c1', c2') with
+      | (Some c1, Some c2) when c1 = c2 -> false
       | (Some c1, Some c2) ->
-          let _ =
-            Printf.printf "Comparing %s with %s.\n"
-            (show_clause c1) (show_clause c2) in
           let r = resolve c1 c2 in
           if is_empty r
           then true
@@ -98,5 +96,7 @@ module Resolution = struct
     with
     | Found -> true in
   let rec find_reso_bin_all i c = existsi (find_reso_bin i c) clauses in
-  if existsi find_reso_bin_all clauses then Refuted else Valid
+  if existsi find_reso_bin_all clauses
+  then Refuted
+  else Valid
 end
