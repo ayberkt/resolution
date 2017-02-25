@@ -1,12 +1,3 @@
-src/AbsResolution.ml
-src/BNFC_Util.ml
-src/LexResolution.mll
-src/ParResolution.mly
-src/PrintResolution.ml
-src/ShowResolution.ml
-src/SkelResolution.ml
-src/TestResolution.ml
-
 setup.ml
 myocamlbuild.ml
 _tags
