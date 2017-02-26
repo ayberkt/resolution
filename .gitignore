@@ -8,7 +8,6 @@ SkelResolution.ml
 TestResolution.ml
 setup.ml
 myocamlbuild.ml
-_tags
 
 reso
 .merlin
