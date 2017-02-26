@@ -71,9 +71,9 @@ module Resolution = struct
     in
       CA.filter p xs
 
-  let neg_clause = Clause.map complement
 
   let resolve (c1 : clause) (c2 : clause) : clause =
+    let neg_clause = Clause.map complement in
     let neg_c1 = neg_clause c1 in
     let confs = inter neg_c1 c2 in
       if is_empty confs
