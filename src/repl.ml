@@ -7,6 +7,7 @@ open Desugar.Desugar
 open Sys
 open Naive.Naive
 open Resolution.Resolution
+open Core_list
 
 let printf = Printf.printf;;
 

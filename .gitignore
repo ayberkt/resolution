@@ -1,3 +1,11 @@
+AbsResolution.ml
+BNFC_Util.ml
+LexResolution.mll
+ParResolution.mly
+PrintResolution.ml
+ShowResolution.ml
+SkelResolution.ml
+TestResolution.ml
 setup.ml
 myocamlbuild.ml
 _tags
