@@ -4,7 +4,9 @@ Version:     0.0.1
 Synopsis:    A tiny implementation of logical resolution.
 Authors:     Ayberk Tosun
 License:     BSD-3-clause
+BuildDepends: core_kernel
 Executable reso
   Path:       src
   BuildTools: ocamlbuild
+  BuildDepends: core_kernel
   MainIs:     repl.ml

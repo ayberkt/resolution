@@ -7,9 +7,12 @@ open Desugar.Desugar
 open Sys
 open Naive.Naive
 open Resolution.Resolution
-open Core_list
+open Core_kernel.Std
+open Core_kernel.Core_list
 
-let printf = Printf.printf;;
+let foo = [1] >>= (fun x -> [x + 1])
+
+let printf = Core_kernel.Core_printf.printf;;
 
 let (color_reset, color_red, color_green, color_pink, color_bright) =
   ("\x1b[0m",
@@ -41,11 +44,12 @@ let repl () =
     then quit_repl ()
     else
       let clauses : clause array =
-        parse_line input |> desugar |> transform |> get_clauses in
+        parse_line input |> desugar
+          |> transform |> get_clauses |> omit_trivials in
         (* get_clauses (transform (Desugar.desugar (parse_line input))) in *)
       match resolve_all clauses with
-       | Refuted -> Printf.printf "Refuted.\n"
-       | Valid   -> Printf.printf "Valid.\n"
+       | Refuted -> printf "%s%s%s\n" color_red "Refuted." color_reset
+       | Valid   -> printf "%s%s%s\n" color_green "Valid." color_reset
          (* let print (x : form) = *)
           (* printf "\n%s\n" (printTree prtForm x) in *)
         (* let result = get_clauses (Desugar.desugar (parse_line input)) in *)
