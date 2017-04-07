@@ -43,8 +43,8 @@ let repl () =
     if String.equal input "quit"
     then quit_repl ()
     else
-      let formCNF = parse_line input |> desugar |> transform in
-      printf "%s\n" (CNF.CNF.showCNF formCNF)
+      let refuted = parse_line input |> desugar |> transform |> resolve in
+      if refuted then printf "Refuted!\n" else printf "Could not refute\n"
   done
 
 let main =
