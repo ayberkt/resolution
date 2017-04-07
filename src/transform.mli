@@ -1,4 +1,5 @@
 module type TRANSFORM = sig
   open AbsResolution
-  val transform : form -> form
+  open CNF.CNF
+  val transform : form -> formCNF
 end

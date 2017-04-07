@@ -43,18 +43,8 @@ let repl () =
     if String.equal input "quit"
     then quit_repl ()
     else
-      let clauses : clause array =
-        parse_line input |> desugar
-          |> transform |> get_clauses |> omit_trivials in
-        (* get_clauses (transform (Desugar.desugar (parse_line input))) in *)
-      match resolve_all clauses with
-       | Refuted -> printf "%s%s%s\n" color_red "Refuted." color_reset
-       | Valid   -> printf "%s%s%s\n" color_green "Valid." color_reset
-         (* let print (x : form) = *)
-          (* printf "\n%s\n" (printTree prtForm x) in *)
-        (* let result = get_clauses (Desugar.desugar (parse_line input)) in *)
-        (* Array.iter print_clause result *)
-
+      let formCNF = parse_line input |> desugar |> transform in
+      printf "%s\n" (CNF.CNF.showCNF formCNF)
   done
 
 let main =
